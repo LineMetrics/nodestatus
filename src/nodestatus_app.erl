@@ -22,8 +22,7 @@ start(_StartType, _StartArgs) ->
 
     Routes = [
         {'_', [
-            {"/status/", status_handler, []},
-            {"/debug/", debug_handler, []}
+            {"/status/", status_handler, []}
         ]}
     ],
 

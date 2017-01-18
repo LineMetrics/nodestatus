@@ -28,7 +28,16 @@ start_link() ->
 
 %% Child :: {Id,StartFunc,Restart,Shutdown,Type,Modules}
 init([]) ->
-    {ok, { {one_for_all, 0, 1}, []} }.
+    Ps =
+    [
+    % ETS Table Manager
+    {ns_ets,
+        {ns_ets, start_link, []},
+        permanent, 1000, worker, dynamic}
+
+    ],
+
+    {ok, { {one_for_all, 10, 10}, Ps} }.
 
 %%====================================================================
 %% Internal functions
