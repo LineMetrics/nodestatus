@@ -1,0 +1,19 @@
+{application, nodestatus,
+ [{description, "Status App for LM Erlang Nodes"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { nodestatus_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    crypto,
+    ranch,
+    cowboy
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
