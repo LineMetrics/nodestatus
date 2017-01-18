@@ -31,7 +31,7 @@ start(_StartType, _StartArgs) ->
     %% HTTP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% get port from env
     Port = application:get_env(nodestatus, http_port, 8003),
-    {ok, InfoHttp} = cowboy:start_http(http, 2,
+    {ok, InfoHttp} = cowboy:start_http(nodestatus_http, 2,
         [{port, Port}],
         [
             {env, [{dispatch, DispatchHWBox}]}
