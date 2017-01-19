@@ -28,13 +28,20 @@ handle(Req0, S) ->
       end,
    ets:insert(ns_stats,{io, Now, IORes}),
 
-   Info = #{<<"ports">> => PortCount, <<"processes">> => ProcessCount, <<"uptime">> => Uptime,
-      <<"ioin">> => In - OldIn, <<"ioout">> => Out - OldOut, <<"iotimespan">> => NewTime},
+   Info = #{
+      <<"ports">> => PortCount, <<"processes">> => ProcessCount, <<"uptime">> => Uptime,
+      <<"ioin">> => In - OldIn, <<"ioout">> => Out - OldOut, <<"iotimespan">> => NewTime,
+      <<"node">> => list_to_binary(atom_to_list(node()))
+   },
 
    {MsgMap, StatusCode} =
    case app_check:do() of
       true ->
-         {call_status(), 200};
+         case (catch call_status()) of
+            {true, R}   -> {R, 200};
+            {false, R}  -> {R, 503};
+            _           -> {#{}, 503}
+         end;
       false ->
          {#{<<"status">> => <<"problems">>,
             <<"problems">> => [<<"not_all_apps_running">>, <<"need restart">>]}, 503}
@@ -44,7 +51,7 @@ handle(Req0, S) ->
 
 call_status() ->
    case application:get_env(nodestatus, mod) of
-      undefined -> #{};
+      undefined -> {true, #{}};
       {ok, Module} -> Module:get_status()
    end.
 

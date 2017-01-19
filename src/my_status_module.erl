@@ -12,4 +12,4 @@
 
 
 get_status() ->
-   #{<<"status">> => <<"normal">>}.
+   {true, #{<<"status">> => <<"normal">>}}.

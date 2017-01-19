@@ -6,4 +6,4 @@
 %% API
 -export([]).
 
--callback get_status() -> map().
+-callback get_status() -> {true, map()} | {false, map()}.
